@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>BitCollect - A decentralized crowdfunding platform</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="vendor/icofont/icofont.min.css" rel="stylesheet">
+  <link href="vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="vendor/owl.carousel/assets/owl.carousel.min.css" rel="stylesheet">
+  <link href="vendor/venobox/venobox.css" rel="stylesheet">
+  <link href="vendor/aos/aos.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+  <section id="hero" class="d-flex align-items-center" style="height: 60px !important">
+  </section><!-- End Hero -->
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top ">
+    <div class="container-fluid">
+
+      <div class="row justify-content-center">
+        <div class="col-xl-9 d-flex align-items-center">
+          <h1 class="logo mr-auto"><a href="#">BitCollect</a></h1>
+          <nav class="nav-menu d-none d-lg-block">
+            <ul>
+              <li class="active"><a href="/">Home</a></li>
+            </ul>
+          </nav><!-- .nav-menu -->
+        </div>
+      </div>
+
+    </div>
+  </header><!-- End Header -->
+
+  <main id="main">
+
+    <!-- ======= Services Section ======= -->
+    <section class="services section-bg">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2 id="campAddr">Crowdfounding Campaign</h2>
+          <h5><%= data.CampaignAddress %></h5>
+          <b>Campaign state: </b><%= data.CampaignState %><br />
+          <b>Campaign deadline: </b><%= data.CampaignDeadline %>
+        </div>
+        <div class="row">
+          <div class="col-sm">
+            <h4>Campaign balance:</h4>
+            <h5><%= data.CampaignBalance %> wei</h5>
+          </div>
+          <div class="col-sm">
+            <table>
+              <tr>
+                <td><b>Organizers:</b> <%= data.listOrganizers.length %></td>
+                <td><b>Beneficiaries:</b> <%= data.listBeneficiaries.length %></td>
+              </tr>
+              <tr>
+                <td><b>Donors:</b> <%= data.listDonors.length %></td>
+                <td><b>Reporters:</b> <%= data.listReporters.length %></td>
+              </tr>
+            </table>
+          </div>
+          <div class="col-sm" style="float: none; margin: 0 auto;">
+            <table>
+              <tr>
+                <td>
+                  <form action="/donate" method="GET">
+                    <button type="submit" class="btn btn-primary">Donate</button>
+                  </form>
+                </td>
+                <td>
+                  <form action="/pastDeadline" method="GET">
+                    <button type="submit" class="btn btn-primary">Set Deadline</button>
+                  </form>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <form action="/report" method="GET">
+                    <button type="submit" class="btn btn-primary">Report</button>
+                  </form>
+                </td>
+                <td>
+                  <form action="/endCampaign" method="GET">
+                    <button type="submit" class="btn btn-primary">Close Campaign</button>
+                  </form>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                </td>
+                <td>
+                  <form action="/setFraudulent" method="GET">
+                    <button type="submit" class="btn btn-primary">Set Fraudulent</button>
+                  </form>
+                </td>
+              </tr>
+            </table>
+            <br />
+            <br />
+         </div>
+        </div>
+        <div style="text-align: left;">
+          <div class="row">
+            <div class="col-sm">
+              <h5>Organizers:</h5>
+              <table>
+              <% for(var i=0; i < data.listOrganizers.length; i++) { %>
+                <tr>
+                  <td><b>Name: </b></td>
+                  <td><%= data.listOrganizers[i].name %></td>
+                </tr>
+                <tr>
+                  <td><b>Initializated: </b></td>
+                  <td><%= data.listOrganizers[i].hasInit %></td>
+                </tr>
+                <tr>
+                  <td><b>Donated: </b></td>
+                  <td><%= data.listOrganizers[i].initDonation %> wei</td>
+                </tr>
+                <tr>
+                  <td colspan="2" style="text-align: center;">
+                    <form action="/init", method="GET">
+                      <input type="hidden" name="orgAddress" value="<%= data.listOrganizers[i].orgAddress %>" />
+                      <button type="submit" class="btn btn-primary btn-sm">Init Campaign</button>
+                    </form>
+                  </td>
+                </tr>
+                <tr><td colspan="2"><hr /></td></tr>
+             <% } %>
+            </table>
+            </div>
+            <div class="col-sm">
+              <h5>Beneficiaries:</h5>
+              <table>
+                <% for(var i=0; i < data.listBeneficiaries.length; i++) { %>
+                  <tr>
+                    <td><b>Name: </b></td>
+                    <td><%= data.listBeneficiaries[i].name %></td>
+                  </tr>
+                  <tr>
+                    <td><b>Donations: </b></td>
+                    <td><%= data.listBeneficiaries[i].amount %> wei</td>
+                  </tr>
+                  <tr>
+                    <td><b>Withdrawn: </b></td>
+                    <td><%= data.listBeneficiaries[i].hasWithDrawn %></td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" style="text-align: center;">
+                      <form action="/withdrawDonations", method="GET">
+                        <input type="hidden" name="benAddress" value="<%= data.listBeneficiaries[i].benAddress %>" />
+                        <button type="submit" class="btn btn-primary btn-sm">Withdraw donations</button>
+                      </form>
+                    </td>
+                  </tr>
+                  <tr><td colspan="2"><hr /></td></tr>
+               <% } %>
+              </table>
+            </div>
+            <div class="col-sm">
+              <h5>Donors:</h5>
+              <table>
+                <% for(var i=0; i < data.listDonors.length; i++) { %>
+                  <tr>
+                    <td><b>Address: </b></td>
+                    <td><%= data.listDonors[i].donAddress %></td>
+                  </tr>
+                  <tr>
+                    <td><b>Donations:</b></td>
+                    <td><%= data.listDonors[i].numDons %></td>
+                  </tr>
+                  <tr>
+                    <td><b>Donated:</b></td>
+                    <td><%= data.listDonors[i].amountDons %> wei</td>
+                  </tr>
+                    <tr>
+                      <td><b>Reward: </b></td>
+                      <td>
+                        <% for(var j=0; j < data.listDonors[i].listRewards.length; j++) { %>
+                        <%= data.listDonors[i].listRewards[j].gift %> (<%= data.listDonors[i].listRewards[j].hasClaimed %>) &nbsp;&nbsp;
+                        <% } %>
+                      </td>
+                    </tr>
+                  <tr>
+                    <td><b>Withdrawn donations: </b></td>
+                    <td><%= data.listDonors[i].hasWithDrawn %></td>
+                  </tr>
+                  <tr>
+                    <td>
+                    </td>
+                    <td>
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                        <form action="/withdrawReward" , method="GET">
+                          <input type="hidden" name="donAddress" value="<%= data.listDonors[i].donAddress %>" />
+                          <button type="submit" class="btn btn-primary btn-sm">Withdraw Rewards</button>
+                        </form>
+                        &nbsp;&nbsp;
+                        <form action="/withdrawDonDonations" , method="GET">
+                          <input type="hidden" name="donAddress" value="<%= data.listDonors[i].donAddress %>" />
+                          <button type="submit" class="btn btn-primary btn-sm">Withdraw Donations</button>
+                        </form>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr><td colspan="2"><hr /></td></tr>
+               <% } %>
+              </table>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm">
+              <h5>Rewards:</h5>
+              <table>
+                <% for(var i=0; i < data.listRewards.length; i++) { %>
+                  <tr>
+                    <td><b>Name: </b></td>
+                    <td><%= data.listRewards[i].reward %></td>
+                  </tr>
+                  <tr>
+                    <td><b>Threshold: </b></td>
+                    <td><%= data.listRewards[i].threshold %></td>
+                  </tr>
+                  <tr><td colspan="2"><hr /></td></tr>
+               <% } %>
+              </table>
+            </div>
+            <div class="col-sm">
+              <h5>Reporters:</h5>
+              <table>
+                <% for(var i=0; i < data.listReporters.length; i++) { %>
+                  <tr>
+                    <td><b>Reporter:</b></td>
+                    <td><%= data.listReporters[i].repAddress %></td>
+                  </tr>
+                  <tr>
+                    <td><b>Bet amount: </b></td>
+                    <td><%= data.listReporters[i].betAmount %></td>
+                  </tr>
+                  <tr>
+                    <td><b>Withdraw bet amount: </b></td>
+                    <td><%= data.listReporters[i].hasWithDrawn %></td>
+                  </tr>
+                  <tr>
+                    <td>
+                    </td>
+                    <td>
+                      <form action="/withdrawRepDonations" method="GET">
+                        <input type="hidden" name="repAddress" value="<%= data.listReporters[i].repAddress %>" />
+                        <button type="submit" class="btn btn-primary btn-sm">Withdraw Donations</button>
+                      </form>
+                    </td>
+                  </tr>
+                  <tr><td colspan="2"><hr /></td></tr>
+               <% } %>
+              </table>
+            </div>
+          </div>
+        </div>
+
+    </section><!-- End Services Section -->
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+
+    <div class="footer-top">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-lg-3 col-md-6 footer-contact">
+            <h3>BitCollect</h3>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div class="copyright-wrap d-md-flex py-4">
+        <div class="mr-md-auto text-center text-md-left">
+          <div class="copyright">
+            &copy; Copyright <strong><span>BitCollect</span></strong>. All Rights Reserved
+          </div>
+          <div class="credits">
+            <!-- All the links in the footer should remain intact. -->
+            <!-- You can delete the links only if you purchased the pro version. -->
+            <!-- Licensing information: https://bootstrapmade.com/license/ -->
+            <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/techie-free-skin-bootstrap-3/ -->
+            Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="vendor/jquery.easing/jquery.easing.min.js"></script>
+  <script src="vendor/php-email-form/validate.js"></script>
+  <script src="vendor/waypoints/jquery.waypoints.min.js"></script>
+  <script src="vendor/counterup/counterup.min.js"></script>
+  <script src="vendor/owl.carousel/owl.carousel.min.js"></script>
+  <script src="vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="vendor/venobox/venobox.min.js"></script>
+  <script src="vendor/aos/aos.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="js/main.js"></script>
+
+  <!-- Web3 and truffle-contract -->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.2.6/dist/web3.min.js"></script>
+  <script src="./dist/truffle-contract.js"></script>
+
+  <!-- The App script -->
+  <script src="js/app.js"></script>
+</body>
+</html>

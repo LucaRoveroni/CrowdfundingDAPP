@@ -1,0 +1,17 @@
+{
+  "name": "final-project",
+  "version": "1.0.0",
+  "description": "A simple crowdfounding website based on Ethereum smart contracts",
+  "main": "server.js",
+  "directories": {
+    "test": "test"
+  },
+  "author": "Luca Roveroni - 606803",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "ejs": "^3.1.3",
+    "express": "^4.17.1",
+    "web3": "^1.2.9",
+  }
+}
